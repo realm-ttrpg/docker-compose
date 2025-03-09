@@ -1,0 +1,75 @@
+version: "3"
+
+services:
+  api:
+    build:
+      context: ./rpgserver
+      dockerfile: Dockerfile
+    depends_on:
+      - bot
+      - cache
+      - db
+    environment:
+      DB_URL: postgresql://realm:realm@db/realm
+      REDIS_HOST: cache
+    expose:
+      - 5000
+    image: rpgserver
+    ports:
+      - 5000:5000
+    restart: unless-stopped
+    volumes:
+      - ./rpgserver/config.toml:/app/config.toml:ro
+      - ./rpgserver/data:/app/data
+
+  bot:
+    build:
+      context: ./rpgbot
+      dockerfile: Dockerfile
+    depends_on:
+      - cache
+    environment:
+      REDIS_HOST: cache
+    image: rpgbot
+    restart: unless-stopped
+    volumes:
+      - ./rpgbot/config.toml:/app/config.toml:ro
+      - ./rpgbot/data:/app/data
+
+  cache:
+    image: redis
+    expose:
+      - 6379
+    restart: unless-stopped
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: realm
+      POSTGRES_USER: realm
+    expose:
+      - 5432
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: ./rpgweb
+      dockerfile: Dockerfile
+      secrets:
+        - npmrc
+    image: rpgweb
+    expose:
+      - 80
+    ports:
+      - 5173:80
+    restart: unless-stopped
+
+secrets:
+  npmrc:
+    name: npmrc
+    file: $HOME/.npmrc
+
+volumes:
+  db-data:

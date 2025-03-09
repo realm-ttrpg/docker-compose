@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+cd "$(realpath "$(dirname "$0")")/.." || exit 1
+git clone git@github.com:realm-ttrpg/api-server.git rpgserver
+git clone git@github.com:realm-ttrpg/discord-bot.git rpgbot
+git clone git@github.com:realm-ttrpg/web-interface.git rpgweb
