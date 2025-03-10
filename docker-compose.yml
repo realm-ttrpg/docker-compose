@@ -10,6 +10,7 @@ services:
       - cache
       - db
     environment:
+      ASYNC_DB_URL: postgresql+asyncpg://realm:realm@db/realm
       DB_URL: postgresql://realm:realm@db/realm
       REDIS_HOST: cache
     expose:
