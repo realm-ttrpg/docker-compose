@@ -1,0 +1,25 @@
+name: Checks
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.branch }}
+
+jobs:
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: realm-ttrpg/docker-compose/.github@main
+
+      - name: Prettier
+        run: npx prettier -lu .
