@@ -1,30 +1,36 @@
 # docker-compose quickstart
 
-The included `docker-compose.yml` manifest assumes that you have the API
-server, Discord bot, and web interface projects cloned into subdirectories:
+The included `docker-compose.yml` manifest builds the Discord bot, API server,
+and web interface container images from a set of subdirectories populated by
+a utility script.
 
 ```
 realm/
 ├─ docker-compose.yml
-├─ scripts/
+├─ scripts/    <-- helper scripts
 ├─ rpgbot/     <-- discord-bot repo
 ├─ rpgserver/  <-- api-server repo
 └─ rpgweb/     <-- web-interface repo
 ```
 
-There are two scripts in the `scripts` folder for managing the service
-repositories (`clone` and `update`).
+## Setup
 
 Before building the service images, you will need the following configuration
-files:
+files. There are example versions of each in the same directory.
 
-- `rpgbot/config.toml`
-- `rpgserver/config.toml`
-- `rpgweb/src/.env`
+- `rpgbot/config.toml` - Bot configuration file
+- `rpgserver/config.toml` - API server configuration file
+- `rpgweb/src/.env` - Web interface build environment file
 
-You must have a `$HOME/.npmrc` file with credentials for `npm.pkg.github.com` in
-order to build the `web` image in the stack. (See:
+You must also have a `$HOME/.npmrc` file with credentials for
+`npm.pkg.github.com` in order to build the `web` image in the stack. (See:
 [Authenticating with a personal access token][])
+
+Clone the repositories:
+
+```shell
+scripts/clone
+```
 
 Build the service images:
 
@@ -32,10 +38,31 @@ Build the service images:
 docker compose build
 ```
 
-Then spin up the entire stack:
+Start the services:
 
 ```shell
-docker compose up  # add -d flag to daemonize
+# remove -d flag to run in foreground
+docker compose up -d
+```
+
+## Update
+
+Pull repository updates:
+
+```shell
+scripts/update
+```
+
+Build updated service images:
+
+```shell
+docker compose build
+```
+
+Restart affected containers:
+
+```shell
+docker compose up -d
 ```
 
 [authenticating with a personal access token]: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-with-a-personal-access-token
