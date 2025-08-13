@@ -65,4 +65,21 @@ Restart affected containers:
 docker compose up -d
 ```
 
+## Develop
+
+Copy the development override configuration:
+
+```shell
+cp docker-compose.dev.yml docker-compose.override.yml
+```
+
+Code updates should be reflected after a service restart without needing to
+rebuild containers. However, you will need to rebuild static HTML manually:
+
+```shell
+cd rpgweb
+npm ci  # only need to do this when dependencies change
+npm run build:local
+```
+
 [authenticating with a personal access token]: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-with-a-personal-access-token

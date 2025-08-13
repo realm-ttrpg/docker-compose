@@ -1,0 +1,12 @@
+services:
+  api:
+    volumes:
+      - ./rpgserver/realm_api:/app/realm_api:ro
+
+  bot:
+    volumes:
+      - ./rpgbot/realm_bot:/app/realm_bot:ro
+
+  web:
+    volumes:
+      - ./rpgweb/html:/usr/share/nginx/html:ro
