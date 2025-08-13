@@ -1,4 +1,6 @@
 /rpgbot/
 /rpgserver/
 /rpgweb/
+docker-compose.override.yml
 node_modules/
+
