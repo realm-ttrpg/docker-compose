@@ -19,7 +19,6 @@ Before building the service images, you will need the following configuration
 files. There are example versions of each in the same directory.
 
 - `rpgbot/config.toml` - Bot configuration file
-- `rpgserver/config.toml` - API server configuration file
 - `rpgweb/src/.env` - Web interface build environment file
 
 You must also have a `$HOME/.npmrc` file with credentials for
