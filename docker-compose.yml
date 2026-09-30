@@ -51,7 +51,7 @@ services:
       - 5432
     restart: unless-stopped
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql
 
   web:
     build:
